@@ -1,0 +1,119 @@
+
+% Package imports.
+\documentclass[10pt,landscape]{article}
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage[landscape, a4paper]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{color,graphicx,overpic}
+\usepackage{hyperref}
+\usepackage{subfigure}
+\usepackage{caption}
+\usepackage{wrapfig}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\newenvironment{Figure}{\par\medskip\noindent\minipage{\linewidth}}
+{\endminipage\par\medskip}
+
+% Sets page margins.
+\geometry{top=.2in,left=.2in,right=.2in,bottom=.2in}
+
+% Turns off header and footer.
+\pagestyle{empty}
+
+% Redefine section commands to use less space and have smaller text.
+% (Can change font size if `\tiny` is too small.
+% See http://www.sascha-frank.com/latex-font-size.html as a reference.)
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-0.5ex plus -0.5ex minus -.2ex}%
+                                {-0.5\baselineskip}%
+                                {\normalfont\small\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-0.5ex plus -.5ex minus -.2ex}%
+                                {-0.5\baselineskip}%
+                                {\normalfont\small\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-0.5ex plus -.5ex minus -.2ex}%
+                                {-0.5\baselineskip}%
+                                {\normalfont\small\bfseries}}
+\renewcommand{\paragraph}{\@startsection{paragraph}{4}{0mm}%
+                                {-0.5ex plus -.5ex minus -.2ex}%
+                                {-0.5\baselineskip}%
+                                {\normalfont\small\bfseries}}
+
+\makeatother
+
+\usepackage[dvipsnames]{xcolor}
+%TITLE Formating
+\usepackage{titlesec}
+
+\titlespacing*{\section}{0pt}{0pt}{0pt}%compact section titles
+\titlespacing*{\subsection}{0pt}{0pt}{0pt}%compact subsection titles
+\titlespacing*{\subsubsection}{0pt}{0pt}{0pt}%compact subsubsection titles
+
+\titleformat{\section}
+  {\normalfont\normalsize\bfseries\color{PineGreen}}{\makebox[18pt][l]{\thesection}}{0pt}{}[{\titlerule[1pt]}]
+\titleformat{\subsection}
+  {\normalfont\small\bfseries\color{OliveGreen}}{\makebox[18pt][l]{\thesubsection}}{5pt}{}
+\titleformat{\subsubsection}
+  {\normalfont\small\bfseries\color{TealBlue}}{\makebox[18pt][l]{\thesubsubsection}}{8pt}{}
+
+
+\setcounter{section}{-1} %start with section 0
+% % No section numbers.
+% \setcounter{secnumdepth}{0}
+
+% Minimal paragraph indenting and spacing.
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+% Canonical "init" statement.
+\begin{document}
+
+% Don't start new paragraphs if you don't need to.
+\raggedright
+
+% Font size.
+\scriptsize
+
+% Specifying number of columns.
+% Asterisk "*" here to force the left-most column to fill first, then the next, ect.
+% (Otherwise, all columns would fill down "equally".
+\begin{multicols*}{4}
+
+% Can play around with these as desired.
+\setlength{\columnseprule}{0.25pt}
+\setlength{\premulticols}{0.25pt}
+\setlength{\postmulticols}{0.25pt}
+\setlength{\multicolsep}{0.25pt}
+\setlength{\columnsep}{0.25pt}
+
+% This is the "magic" pandoc variable. (This is where your Rmarkdown document is inserted.)
+% insert section 
+\input{Chapters/Lesson1}
+\input{Chapters/Lesson2}
+\input{Chapters/Lesson3}
+\input{Chapters/Lesson4}
+
+\input{Chapters/Lesson5}
+\input{Chapters/Lesson6}
+
+\input{Chapters/Lesson7}
+\input{Chapters/Lesson8}
+\input{Chapters/Lesson9}
+\input{Chapters/Lesson10}
+
+\input{Chapters/Lesson11}
+
+\input{Chapters/Lesson12}
+\input{Chapters/Lesson13.tex}
+\input{Chapters/Lesson14.tex}
+
+\end{multicols*}
+
+\end{document}
+
