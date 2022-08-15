@@ -1,0 +1,13 @@
+
+
+\section{GANS}
+    \centerline{$\underset{w_G}{\mathrm{min}} \;\underset{w_D}{\mathrm{max}} \underbrace{\mathbb{E}_x\mathrm{log}D(x;w_D)}_{\text{real images}}+\underbrace{\mathbb{E}_y\mathrm{log}\left[1-D(G(y;w_G);w_D)\right]}_{\text{fake images}}$}
+    For a fixed generator $G$ the optimal discriminator $D$ is: \centerline{$D_G^*(x) = \frac{P_{data}(x)}{P_G(x)+P_{data}(x)}$}
+    
+    Simultanous gradient descent: Find saddle point\\
+    \centerline{$w_G^{(t+1)}= w_G^{(t)}-\eta_t\nabla_{w_G}M(w_G,w_D^{(t)})$}
+    \centerline{$w_D^{(t+1)}= w_D^{(t)}+\eta_t\nabla_{w_D}M(w_G^{(t)},w_D)$}
+    
+    Duality Gap: $DG = \underset{w_D'}{\mathrm{max}}M(w_G,w_D')-\underset{w_G'}{\mathrm{min}}M(w_G',w_D)$\\
+    $DG = 0$ if $w_G, w_D$ form a pure equilibrium, else\,$DG > 0$
+

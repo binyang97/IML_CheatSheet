@@ -1,0 +1,23 @@
+
+\section{Clustering (unsup. classification)}
+    \textbf{K-Means problem:} Non-convex Opt. + NP hard\\
+    Pick centers to minimize sum of squared distances: $\hat{R}(\mu) = \hat{R}(\mu_1, \cdots, \mu_k) = \sum_{i = 1}^{n} \mathrm{min}_{j \in \{ 1 \cdots k \} } \|x_i - \mu_j \|_2^2$
+    
+    \textbf{Lloyd’s heuristic:} 
+    1.Initialize Cluster center 1...k\\
+    2.While not converged: Assign points to closest center and update center with mean of its points \\
+    \textbf{Properties}:
+    Guaranteed to converge (to a local optimum); Sensitive to initialization; Number of iterations required can be exponential; Determining k is difficult; Cannot well model clusters of arbitrary shape
+    
+    \textbf{K-Means++}  
+    % \hangindent=0.5cm
+    1. Choose the first centroid $\mu$ uniformly rand. from X 
+    2. For each $x \in X$ compute $D(x) := \mathrm{min}_j \|x - \mu_j \|_2^2$ 
+    3. Sample the next $\mu_j$ from $X$ with probability $P(\mu_j = x) \propto D(x)^2$ 
+    4. Repeat the last two steps until k centroids are chosen\\
+    (Expected cost is $\mathcal{O}(log k)$ times that of optimal k-Means solution $\hat{R}(\mu_{++}) \leq \mathcal{O}(log k) \mathrm{min}_\mu \hat{R}(\mu)$)
+
+    \textbf{Kernelized k-means} 
+    k-means algorithm is kernelizable (objective only depends on $XX^T$); can use appropriate features $\phi(x)$ to cluster non-spherical and non-linearly separable clusters using k-means.
+    
+    

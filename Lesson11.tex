@@ -1,0 +1,121 @@
+
+
+\section{Statistical perspective}
+\subsection{Estimate data distribution}
+    \textbf{Generalization:}\\
+    Assume data is generated iid. Goal: identify a hypothesis $f: X \rightarrow Y$ that minimized \textbf{expected loss} (\textbf{prediction error}, \textbf{population risk}) :
+    $R(f) = \int p(x,y)  \ell(y; f(x))dxdy = \mathbb{E}_{x, y}[\ell(y, f(x))]$ \\
+    \textbf{Empirical risk:} 
+    $\hat{R}_D(f) = \frac{1}{|D|} \sum\limits_{(x, y) \in D} \ell(y; f(x)) $ \\
+    \textbf{Generalization error:} 
+    $| \hat{R}_D(f) - R(f) |  \rightarrow 0, |D| \rightarrow \infty$ 
+
+    Traing data $D$, test data $D'$ from the same distribution:\\
+    Solution: $\hat{f}_D = \underset {f \in F} { \operatorname {arg\,min} } \,  \hat{R}_D(f)$ \\
+    Evaluation: $\hat{R}_{D'}(\hat{f}_D) = \frac{1}{|D'|} \sum\limits_{(x, y) \in D'} \ell(y, \hat{f}_D(x)) $ \\
+    Obtain an overly optimistic estimate: $\mathbb{E}_{D}[\hat{R}_D(\hat{f}_D)] <= \mathbb{E}_{D}[R_D(\hat{f}_D)]$ (biased if no test)\\
+    $\mathbb{E}_{D'}[\hat{R}_{D'}(\hat{f}_D)] = R(\hat{f}_D)$ (unbiased with test)
+
+\subsection{ Regression}
+    \textbf{Optimal predictor for the squared loss:}\\
+    $f^*(x) =  \underset {f: X \rightarrow \mathbb{R}} { \operatorname {arg\,min} } \,  R(f)  =  \underset {f: X \rightarrow \mathbb{R}} { \operatorname {arg\,min} } \,  \mathbb{E}_{x, y}[\ell(y, f(x))]$ 
+
+    \textbf{Bayes‘ optimal predictor for the squared loss:}
+    $f^*(x) = \mathbb{E}[Y|X=x]$ 
+    
+    \textbf{Least-squares regression = Gaussian MLE:}
+    Assume $y = f(x)+ \epsilon, \epsilon \sim \mathcal{N}(x;0,\sigma^2)$, $f(x)=w^Tx$,  $p(y|x) = \mathcal{N}(y;w^Tx,\sigma^2)$, 
+    $\hat{w}_{MLE}= \mathrm{argmax}_w\; p(y_{1:n}|x_{1:n}, w^Tx,\sigma^2) =  \mathrm{argmin}_w\; -\sum_{i=1}^n \mathrm{log}\left[ P(y_i|x_i;w^Tx,\sigma^2)\right] = \mathrm{argmin}_w\; n/2 log(2 \pi \sigma^2) + \sum_{i=1}^n (y_i - w^T x_i)^2 / (2 \sigma^2)$\\
+
+    \textbf{Ridge regression = Gaussian MAP estimation:}
+    Assume noise $p(y|x, w)$ is iid Gaussian, $w \sim \mathcal{N}(0, \beta^2I)$
+    $ \mathrm{argmax}_w\; p(w|D) =  \mathrm{argmax}_w\; p(w) \prod_{i=1}^n \mathrm{log}P(y_i|x_i;w)= \mathrm{argmin}_w\; \frac{1}{2\beta^2} \| w \|_2^2 + \frac{1}{2\sigma^2}\sum_{i=1}^n (y_i - w^T x_i)^2$
+
+    \textbf{L1-regul.:} Laplace prior: $p(x; \mu, b) = \frac{1}{2b} exp(-\frac{|x - \mu|}{b})$
+    
+    \textbf{Student-t likelihood}: ${P(y|x, w, \nu, \sigma^2)={\frac {\Gamma ({\frac {\nu +1}{2}})}{{\sqrt {\nu \pi \sigma^2}}\,\Gamma ({\frac {\nu }{2}})}}\left(1+{\frac {
+    (y-w^Tx)^{2}}{\nu \sigma^2}}\right)^{-\frac{(\nu +1)}{2}}}$
+\subsection{ Classifier}
+    \textbf{Population risk} with 0-1 loss:
+    $R(f) = P(y \neq f(x)) = { \operatorname {arg\,min} } \,  \mathbb{E}_{x, y}[(y \neq f(x)]$
+
+    \textbf{Bayes‘ optimal classifier: }
+    $f^*(x) = { \operatorname {arg\,max} }_y \,p[Y=y|X=x]$ most probable class
+
+    \textbf{Logistic regression = Bernoulli MLE:} $p(y|x) = Ber(y;\sigma(w^Tx))$ \\
+    $\hat{w}_{MLE}= \mathrm{argmax}_w\; p(y_{1:n}|x_{1:n}, w^Tx,\sigma^2) =  \mathrm{argmin}_w\; -\sum_{i=1}^n \mathrm{log}\left[ P(y_i|x_i;w^Tx,\sigma^2)\right] = \mathrm{argmin}_w\; \sum_{i=1}^n log(1+exp(-y_iw^Tx_i))$\\
+    Logistic loss is \textbf{convex}
+
+    \textbf{Regularized logistic regression = Bernoulli MAP}
+    L2 (Gaussian prior): $\mathrm{argmin}_w\; \sum_{i=1}^n log(1+exp(-y_iw^Tx_i)) + \lambda \|w \|_2^2$ \\
+    L1 (Laplace prior): $\mathrm{argmin}_w\; \sum_{i=1}^n log(1+exp(-y_iw^Tx_i)) + \lambda \|w \|_1^2$ 
+
+    \textbf{Classification:} $P(y|x, \hat{w}) = \frac{1}{1+exp(-y \hat{w}^Tx)}$
+    
+    \textbf{Multi-class logistic regression:} $P(y = i|x, \hat{w}_1, \cdots ,\hat{w}_c) = \frac{exp(\hat{w}_i^Tx)}{\sum_{j=1}^c exp(\hat{w}_j^Tx)}$
+
+    \textbf{Cross-entropy loss:} $\ell (y, x;\hat{w}_1, \cdots ,\hat{w}_c) = -log(p(Y=y|, x, \hat{w}_1, \cdots ,\hat{w}_c))$ 
+
+    \textbf{Kernelized logistic regression:} \\
+    Learning: $\hat{\alpha} = \mathrm{argmin}_\alpha\; \sum_{i=1}^n log(1+exp(-y_i\alpha^TK_i)) + \lambda \alpha^T K \alpha$ \\
+    Classification: $P(y|x, \hat{\alpha}) = \frac{1}{1+exp(-y \sum_{j=1}^n \hat{\alpha}_j^Tk(x_j, x)}$
+
+\section{Bayesian decision theory}
+    Given: \\
+    1. Conditional distribution over labels $p(y|x)$ for $y \in Y$
+    2. Set of actions $A$
+    3. Cost function $C: Y \times A \rightarrow \mathbb{R}$ \\
+    BDT: minimize the expected cost $a* = \mathrm{argmin}_{a \in A}\; \mathbb{E}_{y}[C(y, a)|x]$ \\
+
+    
+\subsection{ Regression: }
+    Cond. dist: $p(y|x) = \mathcal{N}(x;f(x),\sigma^2)$, Act. set: $A = \mathbb{R}$, Cost func.: \\
+    1. $C(y, a) = (y - a)^2$:  $a^*  =\mathbb{E}[y | x] = f(x)$ \\
+    2. Asymmetric cost: $C(y, a) = c_1 \mathrm{max}(y-a, 0) +  c_2 \mathrm{max}(a-y, 0) $:  $a^* = f(x) + \Phi ^ {-1} (\frac{c_1}{c_1+c_2})$, CDF for Gaussian: $\Phi(z)$
+
+
+
+\subsection{ Classification: }
+    Cond. dist: $p(y|x) = Ber(y; \sigma (f(x)) )$, Act. set: $A = \{ +1, -1 \}$, Cost func.: \\
+    1. $C(y, a) = [y \neq a]$:  $a^*  = \mathrm{argmax}_y\; p(y|x) = sign(f(x))$\\ \qquad $\mathbb{E}_{y}[C(y, a)|x] = 1 - p(y=a|x)$\\
+    2. Asymmetric cost: 
+    \vspace{-0.5cm}
+        \begin{equation}
+        C(y, a)=
+        \begin{cases}
+        c_{FP}& \text{y=-1, a=+1}\\
+        c_{FN}& \text{y=+1, a=-1}\\
+        0& \text{otherwise}
+        \end{cases}
+        \vspace{-0.2cm}
+        \end{equation}
+        $c_+ = \mathbb{E}_y[C(y, +1)|x]  = (1-p) \cdot c_{FP}$, $p = p(y=+1|x)$
+        $c_- = \mathbb{E}_y[C(y, -1)|x]  = p \cdot c_{FN}$
+        $a^* = 1: c+ <= c_{-} \Rightarrow p >= \frac{C_{FP}}{C_{FP} + C_{FN}}$ \\
+        $c_{FN} / c_{FP}$ increases, more points classified as pos, TPR FPR increase\\
+    3. With abstention (doubtful l.r.): $A=\{ +1, -1 , D\}$, $c < 0.5$, Less $c$: more likely to choose $D$ (doubtful)
+     \vspace{-0.3cm}
+        \begin{equation}
+        C(y, a)=
+        \begin{cases}
+         c_m [y \neq a]& a \in \{+1, -1\}\\
+         c& a=D
+        \end{cases}
+        \vspace{-0.2cm}
+        \end{equation}
+        \begin{equation}
+        \vspace{-0.3cm}
+        a^*=
+        \begin{cases}
+         y& P(y|x) \geq 1-c / c_m\\
+         D& p > c / c_m \, or \, p < 1 - c / c_m
+        \end{cases}
+        \end{equation}
+    $c_+ = (1-p)c_m, c_- = pc_m, c_D = c$ \\
+    \textbf{Active sampling:} minimize the number of labels; \textit{violates i.i.d. assumption}; get stuck with bad model
+    
+    \textbf{Uncertainty sampling:} Given: unlabeled examples $D_U = \{x_1, \cdots, x_n \}$, labled dataset $D_L = \{ \}$. For $t = 1, 2, 3, \cdots$ 
+    Estimate $p(y|x)$ given current $D_L$\\
+    Pick unlabled example that we are most uncertain about (highest entropy): $i_t \in \mathrm{argmin}_{x \in D_U} H(p(y|x))$\\
+    Query label $y_{i_t}$ and set $D_L \leftarrow D_L \cup \{( x_{i_t}, y_{i_t} )\}$
+    

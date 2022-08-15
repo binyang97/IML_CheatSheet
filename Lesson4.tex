@@ -1,0 +1,16 @@
+
+\section{Model selection}
+\textbf{Prediction Error vs. Estimation Error}:
+$R(f) = \mathbb{E}_{(x,y)}[(y - \hat{f}_D(x))^2] = \textcolor{blue}{\mathbb{E}_{x}[(f^{*}(x)-\bar{f}(x))^2]} + \mathbb{E}_{x}[(Var[\hat{f}_D(x)]] + \textcolor{orange}{\epsilon^2}$ average prediction / generalization error = \textcolor{blue}{$bias^2$} + \textcolor{orange}{irreducible noise} 
+\textbf{cross validation}: \\
+- (Typically choose K = 5 or 10 in practice)
+- Fit the model and compute the validation error on each fold k  
+- Average the cross-validation error over K folds  
+- Select the model with lowest CV error 
+- Model training and evaluation(training set $\&$ test set)
+
+\textbf{LOOCV}:
+if K very large, e.g. $K=|D_{rest}|$, we can get best approximation of
+$M_\varPhi\{D_{rest}\}$. 
+
+Problem: Computationally intensive. 
